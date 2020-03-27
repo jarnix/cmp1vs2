@@ -1,0 +1,33 @@
+<html>
+    <body>
+        <script src="cmp_v2.js"></script>
+        <script>
+            var timeline = [];
+            timeline.push({
+                what: 'start',
+                when: new Date().getTime()
+            });
+
+            window.__cmp('getConsentData', null, function (res) {
+                timeline.push({
+                    what: 'getConsentData callback',
+                    when: new Date().getTime()
+                });
+                window.__cmp('getVendorConsents', null, function (res) {
+                    timeline.push({
+                        what: 'getVendorConsents callback',
+                        when: new Date().getTime()
+                    });
+                    displayTimeline();
+                });
+            });
+
+            function displayTimeline() {
+                var start = timeline[0].when;
+                for (var i = 0; i < timeline.length; i++) {
+                    console.log(timeline[i].when - start, timeline[i].what);
+                }
+            }
+        </script>
+    </body>
+</html>
